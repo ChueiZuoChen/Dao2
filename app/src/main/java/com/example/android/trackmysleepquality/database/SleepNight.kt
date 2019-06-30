@@ -24,14 +24,14 @@ import androidx.room.PrimaryKey
 class SleepNight {
 
     @PrimaryKey(autoGenerate = true)
-    val nightId = 0L
+    var nightId = 0L
 
     @ColumnInfo(name = "start_time_mills")
-    val startTimeMills = System.currentTimeMillis()
+    var startTimeMills = System.currentTimeMillis()
 
     @ColumnInfo(name = "end_time_mills")
-    val endTimeMills = startTimeMills
+    var endTimeMills = startTimeMills
 
     @ColumnInfo(name = "sleep_quility_rating")
-    val sleepQuiluty = -1
+    var sleepQuiluty = -1
 }
