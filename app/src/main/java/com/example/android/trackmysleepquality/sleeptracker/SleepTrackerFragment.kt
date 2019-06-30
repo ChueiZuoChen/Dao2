@@ -22,7 +22,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.example.android.trackmysleepquality.R
+import com.example.android.trackmysleepquality.database.SleepDatabase
+import com.example.android.trackmysleepquality.database.SleepDatabaseDao
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
 
 /**
@@ -32,17 +35,39 @@ import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerB
  */
 class SleepTrackerFragment : Fragment() {
 
-    /**
-     * Called when the Fragment is ready to display content to the screen.
-     *
-     * This function uses DataBindingUtil to inflate R.layout.fragment_sleep_quality.
-     */
+    /*
+    * 首先要先了解我們所設定的SleepTrackerViewModelFactory需要兩個參數分別是1.context 2.Dao,
+    * 傳入這兩個參數之後他會建立SleepTrackerViewModel
+    * 步驟
+    * 建立一個變數接context
+    * 建立一個變數接Dao實體
+    * 然後呼叫SleepTrackerViewModelFactory並傳入上面兩個參數建立ViewmoelFactory
+    * 最後透過ViewModelProviders.of(this,ViewModelFactory).get(...)建立ViewModel物件
+    * 然後透過DataBinding連接UI和ViewModel
+    * */
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        // Get a reference to the binding object and inflate the fragment views.
+
         val binding: FragmentSleepTrackerBinding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_sleep_tracker, container, false)
+
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = SleepDatabase.getInstance(application).sleepDatabaseDao
+
+        val viewModelFactory = SleepTrackerViewModelFactory(dataSource,application)
+
+        val viewModel =
+                ViewModelProviders.of(this,viewModelFactory)
+                        .get(SleepTrackerViewModel::class.java)
+
+        binding.sleepTrackerViewModel = viewModel
+
+        binding.lifecycleOwner = this
+
+
 
         return binding.root
     }

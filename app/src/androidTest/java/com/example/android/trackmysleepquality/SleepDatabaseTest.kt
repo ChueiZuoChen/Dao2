@@ -75,6 +75,6 @@ class SleepDatabaseTest {
         val tonight = sleepDao.getTonight()
         //檢查剛插入的物件是不是他的sleepQuiluty是等於-1,因為我們插入新的物件沒有給sleepQuility,所以他還是會是預設值-1
         //如果等於-1,則完成測試. 反之如果不等於-1他則會跑出IOException來通知測試失敗
-        assertEquals(tonight?.sleepQuility, -1)
+        assertEquals(tonight.sleepQuility, -1)
     }
 }
