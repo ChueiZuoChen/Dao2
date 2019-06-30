@@ -33,5 +33,5 @@ class SleepNight {
     var endTimeMills = startTimeMills
 
     @ColumnInfo(name = "sleep_quility_rating")
-    var sleepQuiluty = -1
+    var sleepQuility = -1
 }
