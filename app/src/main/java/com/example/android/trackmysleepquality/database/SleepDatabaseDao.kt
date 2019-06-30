@@ -16,4 +16,36 @@
 
 package com.example.android.trackmysleepquality.database
 
-interface SleepDatabaseDao
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
+
+/*
+* 1. 先建立 Dao interface
+* 2. 建立你要存取資料庫的方法和回傳資料型態
+* */
+
+@Dao
+interface SleepDatabaseDao {
+    @Insert
+    fun insert(night: SleepNight)
+
+    @Update
+    fun update(night: SleepNight)
+
+    @Query("select * from sleep_quility_table where nightId = :key")
+    fun get(key: Long):SleepNight
+
+    @Query("select * from sleep_quility_table order by nightId desc")
+    fun getAllNight():LiveData<List<SleepNight>>
+
+    @Query("delete from sleep_quility_table")
+    fun deleteAll()
+
+    @Query("select * from sleep_quility_table order by nightId desc limit 1")
+    fun getTonight():SleepNight
+
+}
+
